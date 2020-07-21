@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发布文章</title>
+
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script src="wangEditor.min.js"></script>
+
+    <style>
+        .toolbar {
+            border: 1px solid #ccc;
+        }
+
+        .text {
+            border: 1px solid #ccc;
+            height: 500px;
+        }
+    </style>
+
+    <script>
+        $(function () {
+            //富文本编辑器初始化代码
+            var E = window.wangEditor;
+            var editor = new E('#div1', '#div2');
+            // 上传图片到服务器
+            editor.customConfig.showLinkImg = false;
+            editor.customConfig.uploadImgMaxLength = 3
+            editor.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
+            editor.customConfig.uploadImgServer = 'http://127.0.0.1:9001/shiro/go/upload'; //设置上传文件的服务器路径
+            editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
+            //自定义上传图片事件
+            editor.customConfig.uploadImgHooks = {
+                customInsert: function (insertLink, result, editor) {
+                    var url = result.data;
+                    insertLink(url)
+                },
+
+                before: function(xhr, editor, files) {
+
+                },
+                success: function(xhr, editor, result) {
+                    console.log("上传成功");
+                },
+                fail: function(xhr, editor, result) {
+                    console.log("上传失败,原因是" + result);
+                },
+                error: function(xhr, editor) {
+                    console.log("上传出错");
+                },
+                timeout: function(xhr, editor) {
+                    console.log("上传超时");
+                }
+            };
+
+            editor.create()
+            //创建replaceAll()函数,用于替换字符串中出现的所有某个字符
+            String.prototype.replaceAll = function (FindText, RepText) {
+                return this.replace(new RegExp(FindText, "g"), RepText);
+            };
+            //发布文章按钮的点击事件，即封装数据，向后台传递
+            $("#publishBtn").click(function () {
+                console.info("click");
+                var postData = {};
+                postData.title = $("#titleInput").val();
+                postData.category = $("#categoryInput").val();
+
+                //替换双引号为两个单引号，方便编写SQL语句插入数据库中
+                var content = editor.txt.html().replaceAll("\"", "\'\'");
+                postData.content = content;
+                postData.author_acc = "123";
+                postData.author_name = "admin";
+                postData.create_time = new Date().toLocaleDateString();
+                postData.last_edit_time = new Date().toLocaleDateString();
+                $.ajax({
+                    type: "post",
+                    url: "http://127.0.0.1:9001/shiro/edit/pa",
+                    data: JSON.stringify(postData),
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        alert(data)
+                    }
+                });
+            });
+        })
+    </script>
+</head>
+<body style="background-color: whitesmoke">
+<div class="container-fluid">
+
+    <!--    顶部导航栏-->
+    <!--    <div class="row">-->
+    <!--        <div class="col-md-12" style="padding: 0">-->
+    <!--            <nav class="navbar navbar-expand-lg navbar-light bg-light mainHeader">-->
+    <!--                <div class="collapse navbar-collapse" id="navbarText">-->
+    <!--                    <span class="navbar-nav">-->
+    <!--                        <a class="nav-link navbar-item active" href="#">个人中心</a>-->
+    <!--                    </span>-->
+    <!--                </div>-->
+    <!--            </nav>-->
+    <!--        </div>-->
+    <!--    </div>-->
+
+    <div class="row" style="min-height: 10px"></div>
+    <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-6" style="padding-left: 0px">
+            <div class="card">
+                <div class="card-header" style="background-color: white">
+                    <div class="row">
+                        <div class="col-md-3" style="font-size: 18px">发布文章</div>
+                    </div>
+                </div>
+                <div class="card-body" style="min-height: 1000px">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group mb-1 mt-2 ml-0 mr-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">文章分类</span>
+                                </div>
+                                <input id="categoryInput" type="text" class="form-control"
+                                       style="margin-right: 5px">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group mb-1 mt-2 ml-0 mr-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">文章标题</span>
+                                </div>
+                                <input id="titleInput" type="text" class="form-control" placeholder="不多于100字"
+                                       style="margin-right: 5px">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 8px 0; color: #ccc"></div>
+                    <div id="div1" class="toolbar">
+                    </div>
+                    <div id="div2" class="text"> <!--可使用 min-height 实现编辑区域自动增加高度-->
+                        <p>请输入内容</p>
+                    </div>
+
+                    <div class="row" style="padding: 15px">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2 ml-0">
+                            <button type="button" class="btn btn-primary" id="publishBtn">发布文章</button>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-light">返回</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

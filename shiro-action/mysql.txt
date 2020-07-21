@@ -1,0 +1,3 @@
+create database cloud_action character set utf8mb4 collate utf8mb4_general_ci;
+用户表  m:m   角色表  m:m  权限表
+      用户角色表    角色权限表
