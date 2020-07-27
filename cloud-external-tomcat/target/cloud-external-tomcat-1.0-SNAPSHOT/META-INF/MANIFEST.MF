@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Created-By: IntelliJ IDEA
+Built-By: lgc
+Build-Jdk: 1.8.0_251
+Implementation-Title: cloud-external-tomcat
+Implementation-Version: 1.0-SNAPSHOT
+Implementation-Vendor-Id: com.aladdin
+Main-Class: ${start-class}
+
