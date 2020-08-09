@@ -1,4 +1,4 @@
-package com.aladdin.rabbitmq.action.consumer.mq;
+package com.aladdin.rabbitmq.action.consumer.basic.mq;
 
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;

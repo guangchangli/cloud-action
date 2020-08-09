@@ -1,5 +1,5 @@
 # Created by .ignore support plugin (hsz.mobi)
-.idea
+.idea/
 *.iml
 out
 gen
@@ -15,4 +15,4 @@ gen
 *.tar.gz
 *.rar
 hs_err_pid*
-/target/
+target/

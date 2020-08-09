@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
  */
 public enum ApiErrEnum {
     INTERNAL_ERR(501,"系统繁忙"),
+    CLIENT_ERR(HttpStatus.BAD_REQUEST.value(),"请稍后重试"),
     SUCCESS(HttpStatus.OK.value(), "success"),
     ;
     private int code;

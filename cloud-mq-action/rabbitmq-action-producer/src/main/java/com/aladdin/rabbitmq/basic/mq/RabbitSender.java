@@ -1,4 +1,4 @@
-package com.aladdin.rabbitmq.mq;
+package com.aladdin.rabbitmq.basic.mq;
 
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.MessagePostProcessor;
