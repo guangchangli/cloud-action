@@ -2,14 +2,11 @@ package com.aladdin.cloud.mp.web;
 
 import com.aladdin.cloud.common.response.ApiResult;
 import com.aladdin.cloud.common.response.ApiResultBuilder;
+import com.aladdin.cloud.mp.domain.ao.InnerValidListAo;
 import com.aladdin.cloud.mp.domain.ao.ValidAo;
+import com.aladdin.cloud.mp.domain.ao.ValidationList;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author lgc
@@ -18,13 +15,17 @@ import javax.validation.Valid;
 @RestController
 public class ValidWeb {
 
-    @PutMapping("valid")
-    public ApiResult ValidDemo(@RequestBody @Valid ValidAo validAo) {
+    @PutMapping("save")
+    public ApiResult save(@RequestBody @Validated(ValidAo.GroupA.class) ValidAo validAo) {
+        return ApiResultBuilder.successWithOutData();
+    }
+    @PostMapping("update")
+    public ApiResult update(@RequestBody @Validated(ValidAo.GroupB.class) ValidAo validAo) {
         return ApiResultBuilder.successWithOutData();
     }
 
-    @PutMapping("Validated")
-    public ApiResult ValidatedDemo(@RequestBody @Validated ValidAo validAo) {
+    @PostMapping("validList")
+    public ApiResult ValidatedDemo(@RequestBody @Validated ValidationList<InnerValidListAo> validListAos) {
         return ApiResultBuilder.successWithOutData();
     }
 }

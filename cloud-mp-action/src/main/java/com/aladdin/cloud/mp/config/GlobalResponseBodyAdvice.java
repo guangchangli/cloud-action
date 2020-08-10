@@ -45,31 +45,34 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         }
         return o;
     }
+
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public ApiResult handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         BindingResult bindingResult = ex.getBindingResult();
-        StringBuilder sb = new StringBuilder("校验失败:");
+        StringBuilder sb = new StringBuilder("Bad Request:");
         for (FieldError fieldError : bindingResult.getFieldErrors()) {
-            sb.append(fieldError.getField()).append("：").append(fieldError.getDefaultMessage()).append(",");
+            sb.append(" ").append(fieldError.getDefaultMessage()).append(",");
         }
-        sb.deleteCharAt(sb.length()-1);
+        sb.deleteCharAt(sb.length() - 1);
         String msg = sb.toString();
         return ApiResultBuilder.customerApiResult(HttpStatus.BAD_REQUEST.value(), msg);
     }
+
     @ExceptionHandler({ConstraintViolationException.class})
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public ApiResult handleConstraintViolationException(ConstraintViolationException ex) {
-        return ApiResultBuilder.customerApiResult(ApiErrEnum.CLIENT_ERR.getCode(),ex.getMessage());
+        return ApiResultBuilder.customerApiResult(ApiErrEnum.CLIENT_ERR.getCode(), ex.getMessage());
     }
+
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler({ValidationException.class})
-    public ApiResult errorHandler(ValidationException exception){
+    public ApiResult errorHandler(ValidationException exception) {
         exception.printStackTrace();
-        return ApiResultBuilder.customerApiResult(ApiErrEnum.CLIENT_ERR.getCode(),exception.getMessage());
+        return ApiResultBuilder.customerApiResult(ApiErrEnum.CLIENT_ERR.getCode(), exception.getMessage());
     }
 
     @ResponseBody

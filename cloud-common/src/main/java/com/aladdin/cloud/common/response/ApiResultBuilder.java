@@ -6,8 +6,7 @@ package com.aladdin.cloud.common.response;
  * @author lgc
  */
 public class ApiResultBuilder<T> {
-
-    private static Integer successCode = ApiErrEnum.SUCCESS.getCode();
+    private static int successCode = ApiErrEnum.SUCCESS.getCode();
     private static String successMsg = ApiErrEnum.SUCCESS.getErrMsg();
 
     /**
@@ -31,11 +30,11 @@ public class ApiResultBuilder<T> {
      * @return success with data
      */
     public static <T> ApiResult<T> successWithData(T t) {
-        ApiResult<T> result = new ApiResult<>();
-        result.setCode(successCode);
-        result.setErrMsg(successMsg);
-        result.setData(t);
-        return result;
+        ApiResult<T> apiResult = new ApiResult<>();
+        apiResult.setCode(successCode);
+        apiResult.setErrMsg(successMsg);
+        apiResult.setData(t);
+        return apiResult;
     }
 
     /**
@@ -46,10 +45,10 @@ public class ApiResultBuilder<T> {
      * @return result
      */
     public static <T> ApiResult<T> error(ApiErrEnum apiErrEnum) {
-        ApiResult<T> result = new ApiResult<>();
-        result.setCode(apiErrEnum.getCode());
-        result.setErrMsg(apiErrEnum.getErrMsg());
-        return result;
+        ApiResult<T> apiResult = new ApiResult<>();
+        apiResult.setCode(apiErrEnum.getCode());
+        apiResult.setErrMsg(apiErrEnum.getErrMsg());
+        return apiResult;
     }
 
     /**
@@ -61,10 +60,10 @@ public class ApiResultBuilder<T> {
      * @return result
      */
     public static <T> ApiResult<T> errorWithAttachErrMsg(ApiErrEnum apiErrEnum, String attachErrMsg) {
-        ApiResult<T> result = new ApiResult<>();
-        result.setCode(apiErrEnum.getCode());
-        result.setErrMsg(apiErrEnum.getErrMsg() + ":" + attachErrMsg);
-        return result;
+        ApiResult<T> apiResult = new ApiResult<>();
+        apiResult.setCode(apiErrEnum.getCode());
+        apiResult.setErrMsg(apiErrEnum.getErrMsg() + ":" + attachErrMsg);
+        return apiResult;
     }
 
     /**
@@ -76,10 +75,10 @@ public class ApiResultBuilder<T> {
      * @return result
      */
     public static <T> ApiResult<T> errorOverrideAttachErrMsg(ApiErrEnum apiErrEnum, String attachErrMsg) {
-        ApiResult<T> result = new ApiResult<>();
-        result.setCode(apiErrEnum.getCode());
-        result.setErrMsg(attachErrMsg);
-        return result;
+        ApiResult<T> apiResult = new ApiResult<>();
+        apiResult.setCode(apiErrEnum.getCode());
+        apiResult.setErrMsg(attachErrMsg);
+        return apiResult;
     }
 
     /**
@@ -91,10 +90,10 @@ public class ApiResultBuilder<T> {
      * @return result
      */
     public static <T> ApiResult<T> customerApiResult(int resultCode, String resultMsg) {
-        ApiResult<T> result = new ApiResult<>();
-        result.setCode(resultCode);
-        result.setErrMsg(resultMsg);
-        return result;
+        ApiResult<T> apiResult = new ApiResult<>();
+        apiResult.setCode(resultCode);
+        apiResult.setErrMsg(resultMsg);
+        return apiResult;
     }
 
 }
