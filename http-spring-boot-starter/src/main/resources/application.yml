@@ -1,0 +1,14 @@
+gjs:
+  url:
+    base: http://10.20.200.102:9002/insure-server
+    user: /query?apiName=queryCustomerDetailForInsure
+    dataType: Content-type:application/x-www-form-urlencoded
+    apiVersion: 1.0
+    saleSystem: WMS
+    clientType: 06
+    stationId: T10002
+server:
+  port: 8080
+spring:
+  main:
+    banner-mode: off
