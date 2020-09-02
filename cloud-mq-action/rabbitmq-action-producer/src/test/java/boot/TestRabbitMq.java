@@ -46,6 +46,6 @@ public class TestRabbitMq {
     }
     @Test
     public void testTopic(){
-        rabbitTemplate.convertAndSend("topics","product.save","topic user.save message");
+        rabbitTemplate.convertAndSend("gopher_exchange","gopher.send","gopher say hi");
     }
 }

@@ -14,13 +14,17 @@ spring:
     default-property-inclusion: NON_NULL
     time-zone: GMT+8
   rabbitmq:
-    connection-timeout: 20000
-    password: admin
-    username: admin
-    virtual-host: /cloud-action
-    host:
-    port: 5672
-    publisher-confirm-type: correlated
-#    publisher-confirm-type: correlated
-
+    username: gopher
+    password: gopher
+    virtual-host: gopher_vh
+    publisher-returns: true
+    template:
+      mandatory: true
+    listener:
+      simple:
+        acknowledge-mode: manual
+        concurrency: 1
+        max-concurrency: 10
+        prefetch: 1
+    addresses: 115.159.235.37,115.159.235.12,115.159.235.96
 
