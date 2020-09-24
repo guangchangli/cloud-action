@@ -1,7 +1,6 @@
 server:
   port: 9000
 
-#配置数据源
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -10,12 +9,31 @@ spring:
     password: 50235023
   main:
     banner-mode: off
+  rabbitmq:
+    password: admin
+    username: admin
+    virtual-host: gopher
+    port: 5672
+    host: 81.70.30.98
+    connection-timeout: 15000
+    publisher-confirm-type: correlated
+    listener:
+      simple:
+        # 表示消费者消费成功消息以后需要手工的进行签收(ack)，默认为auto
+        acknowledge-mode: manual
+        concurrency: 5
+        max-concurrency: 10
+        #每次从 交换机取待消费消息个数
+        prefetch: 1
+      boot:
+        exchange:
+          durable: true
+          key: gopher.#
+          name: gopher-exchange
+          type: topic
 
-# mybatis-plus相关配置
 mybatis-plus:
-  # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
   mapper-locations: com/aladdin/cloud/mp/mapper/**/*.xml
-  # 以下配置均有默认值,可以不设置
   global-config:
     db-config:
       #主键类型 AUTO:"数据库ID自增" INPUT:"用户输入ID",ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
@@ -25,7 +43,6 @@ mybatis-plus:
       #数据库类型
       db-type: MYSQL
   configuration:
-    # 是否开启自动驼峰命名规则映射:从数据库列名到Java属性驼峰命名的类似映射
     map-underscore-to-camel-case: true
     # 如果查询结果中包含空值的列，则 MyBatis 在映射的时候，不会映射这个字段
     call-setters-on-nulls: true

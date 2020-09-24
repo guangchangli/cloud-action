@@ -11,7 +11,6 @@ import java.util.Properties;
  */
 public class RabbitmqUtils {
     private static ConnectionFactory connectionFactory;
-    private static Properties properties;
     static {
         connectionFactory=new ConnectionFactory();
         connectionFactory.setHost("81.70.30.98");
