@@ -11,7 +11,7 @@
 
     <properties>
         <nacos-discovery.version>0.2.7</nacos-discovery.version>
-        <boot.version>2.2.2.RELEASE</boot.version>
+        <boot.version>2.5.12</boot.version>
     </properties>
     <dependencyManagement>
         <dependencies>
